@@ -1,0 +1,99 @@
+description: Includes Gears of War Patches 13, 24, and 35; Launcher_Bypass (explained below); and Xliveless
+game_slug: gears-of-war
+gogslug: ''
+humblestoreid: ''
+installer_slug: gears-of-war-iso
+name: Gears of War
+notes: "This is a modification of the original installer found on Lutris which bypasses GFWL entirely via xliveless and uses a version of the launcher bypass with more consistent behavior. The launcher bypass code from https://pastebin.com/raw/CyU6gZYg will not always succeed in bypassing the launcher. This version of the bypass can be found here: https://github.com/njunius/Gears-of-War-Launcher-Bypass-Update/raw/refs/heads/main/default.htm\nAdditional modifications to the original launcher are:\r\nThe inclusion of Xliveless as a potential safeguard of functionality.\r\nRunning the game during installation so the launcher directory is created in AppData as the original launcher would fail to create the directory on some systems.\r\nThe remomval of dependencies on the broken GFWL installer which would cause the original installation script to fail.\r\n\r\nThis version of the script has been tested on Wine 10.13 and using an ISO from the following archive.org page: https://archive.org/details/GOF1dvd"
+runner: wine
+script:
+  files:
+  - Gears-of-War-Patch-1:
+      filename: gears_tu.exe
+      url: https://archive.org/download/gears-of-war-pc-title-updates/Gears%20of%20War%20PC%20Title%20Updates.rar/Gears%20of%20War%20PC%20Title%20Updates%2FGearsOfWar_TitleUpdate.exe
+  - Gears-of-War-Patch-2:
+      filename: gearstu.exe
+      url: https://archive.org/download/gears-of-war-pc-title-updates/Gears%20of%20War%20PC%20Title%20Updates.rar/Gears%20of%20War%20PC%20Title%20Updates%2FGearsTU.exe
+  - Gears-of-War-Patch-3:
+      filename: GearsPC_TU3_Microsoft.exe
+      url: https://archive.org/download/gears-of-war-pc-title-updates/Gears%20of%20War%20PC%20Title%20Updates.rar/Gears%20of%20War%20PC%20Title%20Updates%2FGearsPC_TU3_Microsoft.exe
+  - Launcher-Bypass-Text-for-default-htm:
+      filename: bypass_launcher.htm
+      url: https://github.com/njunius/Gears-of-War-Launcher-Bypass-Update/raw/refs/heads/main/default.htm
+  - Startup.exe:
+      filename: Startup.exe
+      url: https://archive.org/download/gears-of-war-pc-title-updates/Gears%20of%20War%20PC%20Title%20Updates.rar/Gears%20of%20War%20PC%20Title%20Updates%2FStartup.exe
+  - Xliveless:
+      filename: xliveless.zip
+      url: https://community.pcgamingwiki.com/files/file/576-xliveless/?do=download&r=12662&confirm=1&t=1&csrfKey=85eec127b200c1b3901d0eed51bf1820
+  game:
+    arch: win64
+    exe: $GAMEDIR/drive_c/Program Files (x86)/Microsoft Games/Gears of War/Binaries/Startup.exe
+    prefix: $GAMEDIR
+    working_dir: $GAMEDIR/drive_c/Program Files (x86)/Microsoft Games/Gears of War/Binaries
+  installer:
+  - task:
+      arch: win64
+      name: create_prefix
+      prefix: $GAMEDIR
+  - task:
+      app: win7 arial physx xact_x64
+      arch: win64
+      description: Installing required System DLLs
+      name: winetricks
+      prefix: $GAMEDIR
+  - insert-disc:
+      message: Insert Gears of War DVD (Please open the DVD once in Filemanager for
+        correct Installation Process)
+      requires: autorun.exe
+  - merge:
+      description: Copying Gears of War DVD to cache (Please Wait!!!!)
+      dst: $CACHE/cdrom
+      src: $DISC
+  - task:
+      description: Game Installation (After Install Close the Popup Window)
+      executable: $CACHE/cdrom/autorun.exe
+      name: wineexec
+      prefix: $GAMEDIR
+  - task:
+      app: d3dx9 d3dx10 d3dx10_43 d3dcompiler_42 d3dcompiler_43 d3dcompiler_46 d3dcompiler_47
+        dotnet40 dotnet462
+      arch: win64
+      description: Installing required DirectX Files
+      name: winetricks
+      prefix: $GAMEDIR
+  - task:
+      description: Installing Gears of War Patch 1 (After Install Close the Popup Window)
+      executable: Gears-of-War-Patch-1
+      name: wineexec
+      prefix: $GAMEDIR
+  - task:
+      description: Installing Gears of War Patch 2 (After Install Close the Popup Window)
+      executable: Gears-of-War-Patch-2
+      name: wineexec
+      prefix: $GAMEDIR
+  - task:
+      description: Installing Gears of War Patch 3 (After Install Close the Popup Window)
+      executable: Gears-of-War-Patch-3
+      name: wineexec
+      prefix: $GAMEDIR
+  - extract:
+      dst: $GAMEDIR/drive_c/Program Files (x86)/Microsoft Games/Gears of War/Binaries/
+      src: Xliveless
+  - move:
+      dst: $GAMEDIR/drive_c/Program Files (x86)/Microsoft Games/Gears of War/Binaries/Startup.exe
+      src: Startup.exe
+  - task:
+      description: Running the Launcher to Create Configuration (Close to Complete the Installation)
+      executable: $GAMEDIR/drive_c/Program Files (x86)/Microsoft Games/Gears of War/Binaries/Startup.exe
+      name: wineexec
+      prefix: $GAMEDIR
+  - move:
+      dst: $GAMEDIR/drive_c/users/$USER/AppData/Roaming/Microsoft Games/Gears of War/CurrentSite/default.htm
+      src: Launcher-Bypass-Text-for-default-htm
+  wine:
+    esync: false
+slug: gears-of-war-iso
+steamid: null
+version: DVD or ISO
+year: 2006
