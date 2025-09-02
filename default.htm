@@ -1,0 +1,415 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="default.css" rel="stylesheet" type="text/css" />
+
+
+<script language="JScript">
+external.SetConsentResponse(false);
+external.Start();
+</script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5322847-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script><script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5322847-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script><script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5322847-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script><script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5322847-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<xml id="en" src="strings/strings_en.xml" />
+<xml id="fr" src="strings/strings_fr.xml" />
+<xml id="de" src="strings/strings_de.xml" />
+<xml id="es" src="strings/strings_es.xml" />
+<xml id="it" src="strings/strings_it.xml" />
+<xml id="ko" src="strings/strings_ko.xml" />
+<xml id="zh_Hant" src="strings/strings_zh-Hant.xml" />
+
+<script language="JScript">
+var strings = en;
+var mpc_strings_map = new Array();
+mpc_strings_map[92329] = zh_Hant;
+mpc_strings_map[92336] = fr;
+mpc_strings_map[92334] = en;
+mpc_strings_map[92339] = de;
+mpc_strings_map[92342] = it;
+mpc_strings_map[92343] = ko;
+mpc_strings_map[92353] = es;
+mpc_strings_map[92351] = es;
+
+var mpc = external.GetRegionCode();
+if (mpc_strings_map[mpc] != undefined)
+    strings = mpc_strings_map[mpc];
+</script>
+
+<script language="JScript">
+var consentNeeded = true;
+var hideDialog = false;
+external.SetContentVersion("1");
+consentNeeded = external.ConsentNeeded();
+</script>
+
+<script language="JScript">
+function window::onload()
+{
+	var uploadCB = document.getElementById('UploadCheckBox');
+	var hideCB = document.getElementById('HideCheckBox');
+	var privLink = document.getElementById('PrivacyStatement');
+	var playBtn = document.getElementById('PlayButton');
+
+    SetText(document.getElementById('TopPanelDescription'));
+    SetText(document.getElementById('TopPanelTitle'));
+    SetText(document.getElementById('BottomPanelTitle'));
+    SetText(document.getElementById('BottomPanelDescription'));
+
+	SetButton(playBtn);
+	playBtn.style.visibility = "visible";
+    SetText(privLink);
+    CreateCheckBox(hideCB, false);
+    CreateSurveyCheckBox(uploadCB, false);
+
+    SetTabStop(playBtn, 1, OnPlay);
+    SetTabStop(uploadCB.children[1], 2, OnCheckBoxClick);
+    SetTabStop(hideCB.children[1], 3, OnCheckBoxClick);
+    SetTabStop(privLink, 4);
+
+    if (external.GetConsentResponse())
+        OnCheckBoxClick(uploadCB);
+}
+
+function CreateCheckBox(obj, text, checked)
+{
+    obj.checked = checked;
+    obj.hover = false;
+
+    var img = document.createElement("IMG");
+    img.style.cssText = "position:absolute; left:0; top:4; cursor:hand;";
+    img.src = checked ? "images/checked.gif" : "images/unchecked.gif";
+    img.onmouseover = OnCheckBoxMouseOver;
+    img.onmouseout = OnCheckBoxMouseOut;
+    img.onclick = OnCheckBoxClick;
+    obj.appendChild(img);
+
+    var span = document.createElement("SPAN");
+    span.className = "checkbox-text";
+    span.innerText = GetString(obj.id);
+    span.onmouseover = OnCheckBoxMouseOver;
+    span.onmouseout = OnCheckBoxMouseOut;
+    span.onclick = OnCheckBoxClick;
+    span.unselectable = "on";
+    obj.appendChild(span);
+}
+
+function CreateSurveyCheckBox(obj, text, checked)
+{
+    obj.checked = checked;
+    obj.hover = false;
+
+    var img = document.createElement("IMG");
+    img.style.cssText = "position:absolute; left:0; top:2; cursor:hand;";
+    img.src = checked ? "images/checked.gif" : "images/unchecked.gif";
+    img.onmouseover = OnSurveyCheckBoxMouseOver;
+    img.onmouseout = OnSurveyCheckBoxMouseOut;
+    img.onclick = OnCheckBoxClick;
+    obj.appendChild(img);
+
+    var span = document.createElement("SPAN");
+    span.className = "survey-checkbox-text";
+    span.innerText = GetString(obj.id);
+    span.onmouseover = OnSurveyCheckBoxMouseOver;
+    span.onmouseout = OnSurveyCheckBoxMouseOut;
+    span.onclick = OnCheckBoxClick;
+    span.unselectable = "on";
+    obj.appendChild(span);
+}
+
+function OnButtonMouseOver()
+{
+    var obj = event.srcElement;
+    obj.src = obj.hover;
+}
+
+function OnButtonMouseOut()
+{
+    var obj = event.srcElement;
+    obj.src = obj.nohover;
+}
+
+function OnCheckBoxClick(obj)
+{
+    if (obj == undefined)
+        obj = event.srcElement;
+    obj = obj.nodeName != "IMG" && obj.nodeName != "SPAN" ? obj : obj.parentElement;
+    obj.checked = !obj.checked;
+    var src = obj.checked ? "images/checked_hover.gif" : "images/unchecked_hover.gif";
+    obj.children[0].src = src;
+    event.cancelBubble = true;
+}
+
+function OnCheckBoxMouseOver()
+{
+    var obj = event.srcElement.nodeName != "IMG" && event.srcElement.nodeName != "SPAN" ? event.srcElement : event.srcElement.parentElement;
+    obj.hover = true;
+    obj.children[0].src = obj.checked ? "images/checked_hover.gif" : "images/unchecked_hover.gif";
+    obj.children[1].className = "checkbox-text-glowing";
+    event.cancelBubble = true;
+}
+
+function OnCheckBoxMouseOut()
+{
+    var obj = event.srcElement.nodeName != "IMG" && event.srcElement.nodeName != "SPAN" ? event.srcElement : event.srcElement.parentElement;
+    obj.hover = false;
+    obj.children[0].src = obj.checked ? "images/checked.gif" : "images/unchecked.gif";
+    obj.children[1].className = "checkbox-text";
+    event.cancelBubble = true;
+}
+
+function OnSurveyCheckBoxMouseOver()
+{
+    var obj = event.srcElement.nodeName != "IMG" && event.srcElement.nodeName != "SPAN" ? event.srcElement : event.srcElement.parentElement;
+    obj.hover = true;
+    obj.children[0].src = obj.checked ? "images/checked_hover.gif" : "images/unchecked_hover.gif";
+    obj.children[1].className = "survey-checkbox-text-glowing";
+    event.cancelBubble = true;
+}
+
+function OnSurveyCheckBoxMouseOut()
+{
+    var obj = event.srcElement.nodeName != "IMG" && event.srcElement.nodeName != "SPAN" ? event.srcElement : event.srcElement.parentElement;
+    obj.hover = false;
+    obj.children[0].src = obj.checked ? "images/checked.gif" : "images/unchecked.gif";
+    obj.children[1].className = "survey-checkbox-text";
+    event.cancelBubble = true;
+}
+
+function SetButton(obj)
+{
+    obj.src = GetString(obj.id);
+    obj.nohover = GetString(obj.id);
+    obj.hover = GetString(obj.id + "Hover");
+}
+function OnPlay(obj)
+{
+	var hideCB = document.getElementById('HideCheckBox');
+    if (hideCB.checked)
+        external.SetDontShowUntilNew(true);
+	var uploadCB = document.getElementById('UploadCheckBox');
+    if (uploadCB.checked)
+        external.SetConsentResponse(true);
+    else
+        external.SetConsentResponse(false);
+    external.Start();
+}
+</script>
+
+
+<script language="JScript">
+function GetString(id)
+{
+    var node = strings.selectSingleNode("Strings/String[@Name='" + id + "']");
+    if (node != null)
+        return node.text;
+    else
+        return null;
+}
+
+function SetText(obj)
+{
+    obj.innerText = GetString(obj.id);
+}
+
+function SetTabStop(obj, index, invoker)
+{
+    obj.tabStop = true;
+    obj.tabIndex = index;
+    if (invoker != undefined && invoker != null)
+        obj.invoker = invoker;
+}
+
+function OnKeyPress()
+{
+    if (window.event.keyCode == 13 || window.event.keyCode == 32) // enter or space
+    {
+        var obj = document.activeElement;
+        if (obj != null)
+        {
+            var invoker = obj.invoker;
+            if (invoker != undefined)
+                invoker(obj);
+        }
+    }
+}
+
+</script>
+
+
+</head>
+
+<body onkeypress="OnKeyPress()" scroll="no" unselectable="on">
+
+<!-------------------------------------------------------
+
+TOP PANEL
+
+--------------------------------------------------------->
+
+	<div
+        id="TopPanel"
+        class="panel"
+        style="top:210; left:244; height:110; width:455;">
+
+        <img
+        	src="images/top_panel.gif"
+            style="position:absolute; top:0; left:0;"
+        />
+
+		<span
+			id="TopPanelTitle"
+			style="position:absolute; top:4; left:18;"
+			unselectable="on">
+		</span>
+
+        <p
+            id="TopPanelDescription"
+            class="panel-description"
+            style="position:absolute; top:25; left:87; width:351;"
+            unselectable="on">
+        </p>
+
+        <img
+            src="images/dlc_large.gif"
+            style="position:absolute; top:22; left:17;"
+        />
+
+	</div>
+
+
+<!-------------------------------------------------------
+
+BOTTOM PANEL
+
+--------------------------------------------------------->
+
+    <div
+        id="BottomPanel"
+        class="panel"
+        style="top:333; left:244; height:230; width:455;">
+
+        <img
+            src="images/bottom_panel.gif"
+            style="position:absolute; top:0; left:0;"
+        />
+
+        <span
+            id="BottomPanelTitle"
+            style="position:absolute; top:4; left:18;"
+            unselectable="on">
+        </span>
+
+        <p
+            id="BottomPanelDescription"
+            class="panel-description"
+            style="position:absolute; top:30; left:18; width:414;"
+            unselectable="on">
+        </p>
+
+        <img
+            src="images/seperator.gif"
+            style="position:absolute; top:155; left:66;"
+        />
+
+        <div
+            id="UploadCheckBox"
+            style="position:absolute; top:175; left:18; width:260; height:60;"
+            onmouseover="OnSurveyCheckBoxMouseOver()"
+            onmouseout="OnSurveyCheckBoxMouseOut()"
+            onclick="OnCheckBoxClick()"
+            unselectable="on">
+        </div>
+
+    </div>
+
+<!-------------------------------------------------------
+
+HIDE CHECKBOX AND PLAY BUTTON
+
+--------------------------------------------------------->
+    <div
+        style="position: absolute; top:470; left:8; width:600; height:70;"
+        unselectable="on">
+
+        <div
+            id="HideCheckBox"
+            style="position: absolute; top:30; left:0; width:236; height:40;"
+            onmouseover="OnCheckBoxMouseOver()"
+            onmouseout="OnCheckBoxMouseOut()"
+            onclick="OnCheckBoxClick()"
+            unselectable="on">
+        </div>
+
+        <img
+            id="PlayButton"
+            class="button"
+            style="position: absolute; left:548; top:12; visibility:hidden"
+            src="images/Play_button.gif"
+            onmouseover="OnButtonMouseOver()"
+            onmouseout="OnButtonMouseOut()"
+            onclick="OnPlay()"
+            />
+
+    </div>
+
+<!-------------------------------------------------------
+
+PRIVACY LINK
+
+--------------------------------------------------------->
+	<div
+		id="PrivacyStatement"
+		class="privacy-statement"
+		style="position:absolute; top:560; left:10; width:691; height:40; margin-bottom:10"
+	</div>
+
+</body>
+</html>
